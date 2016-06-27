@@ -9,14 +9,17 @@ jQuery(document).ready(function($) {
             dataType: 'json',
             url: ajax_subscribenow_object.ajaxurl,
             data: {
-                'action': 'ajax_subscribe_save', //calls wp_ajax_nopriv_ajaxlogin
-                'email': $('form#subscribenow #email').val(),
+                'action': 'ajax_subscribe_verify',
+                'email': $('form#subscribenow [name="email"]').val(),
+                'fullname': $('form#subscribenow [name="fullname"]').val(),
+                'nickname': $('form#subscribenow [name="nickname"]').val(),
+                'contact': $('form#subscribenow [name="contact"]').val(),
                 'security': $('form#subscribenow #security').val() },
             success: function(data){
                 $('form#subscribenow p.status').text(data.message);
-                $('form button').text('SUBSCRIBE').prop('disabled',false);
+                $('form button').text('SUBMIT').prop('disabled',false);
                 if (data.sent == true){
-                    $('form button').text('EMAIL SENT').prop('disabled',true);
+                    $('form button').text('VERIFIED').prop('disabled',true);
                 }
             }
         });

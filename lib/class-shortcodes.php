@@ -1,17 +1,20 @@
 <?php
 
 function subscribenow_form(){
-  wp_enqueue_script('subscribenow-ajax');
-  ?>
-  <form id="subscribenow" method="POST" action="">
-    <h3>Stay up to date</h3>
-    <p>
-      Join the weekly newsletter and never miss out on new tips, tutorials, and more.
-    </p>
-    Email Address: <input type="email" id="email" name="email"><br>
-    <button class="btn btn-success" type="submit">Subscribe</button>
-    <?php wp_nonce_field( 'ajax-subscription-nonce', 'security' ); ?>
-  </form>
-  <?php
+
+    if(!empty($_GET['confirm']) && !empty($_GET['email'])){
+        require_once(SUBSCRIBE_NOW_PLUGIN_DIR . 'lib/class-member.php');
+        $member = new Member();
+        if(md5($_GET['email'])===$_GET['confirm'] && $member->checkEmailExist($_GET['email'])){
+            wp_enqueue_script('subscribenow-verify-ajax');
+            include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form-verify.php';
+        }else{
+            include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form-email-doesnot-exist.php';
+        }
+    }else{
+        wp_enqueue_script('subscribenow-ajax');
+        include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form.php';
+    }
 }
+
 add_shortcode('subscribenow-form', 'subscribenow_form');

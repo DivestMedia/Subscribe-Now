@@ -15,9 +15,12 @@ if(!class_exists('SubscribeNow'))
 
       add_action('admin_init', array(&$this, 'admin_init'));
       add_action('admin_menu', array(&$this, 'add_menu'));
-      add_filter( 'set-screen-option', [ __CLASS__, 'set_screen' ], 10, 3 );
-    } // END public function __construct
 
+      add_filter( 'set-screen-option', [ __CLASS__, 'set_screen' ], 10, 3 );
+
+      add_action('init','ajax_subscribe_init');
+
+    } // END public function __construct
 
 
     public function admin_init()
@@ -138,4 +141,30 @@ if(!class_exists('SubscribeNow'))
     // Do nothing
   } // END public static function deactivate
 }
+}
+
+function ajax_subscribe_init(){
+  wp_register_script('subscribenow-ajax', SUBSCRIBE_NOW_PLUGIN_URL . 'assets/subscribenow.js', array('jquery') );
+  wp_localize_script( 'login', 'ajax_subscribenow_object', array(
+    'ajaxurl' => admin_url( 'admin-ajax.php' ),
+    'redirecturl' => home_url(),
+    'loadingmessage' => __('Sending user info, please wait...')
+  ));
+}
+function ajax_subscribe_save(){
+
+  // First check the nonce, if it fails the function will break
+  check_ajax_referer( 'ajax-subscription-nonce', 'security' );
+
+  // Nonce is checked, get the POST data and sign user on
+  $info = array();
+  $info['email'] = $_POST['email'];
+
+  if ( is_wp_error() ){
+    echo json_encode(array('loggedin'=>false, 'message'=>__('Wrong username or password.')));
+  } else {
+    echo json_encode(array('loggedin'=>true, 'message'=>__('Login successful, redirecting...')));
+  }
+
+  die();
 }

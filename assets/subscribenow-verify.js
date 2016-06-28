@@ -1,5 +1,9 @@
 jQuery(document).ready(function($) {
 
+<<<<<<< HEAD
+=======
+    // Perform AJAX login on form submit
+>>>>>>> origin/Master
     $('form#subscribenow').on('submit', function(e){
         $('form#subscribenow p.status').show().text(ajax_subscribenow_object.loadingmessage);
         $('form button').text('SENDING...').prop('disabled',true);
@@ -16,6 +20,7 @@ jQuery(document).ready(function($) {
                 'g-recaptcha-response': $('form#subscribenow [name="g-recaptcha-response"]').val(),
                 'security': $('form#subscribenow #security').val()
               },
+
             success: function(data){
                 $('form#subscribenow p.status').text(data.message);
                 $('form button').text('SUBMIT').prop('disabled',false);

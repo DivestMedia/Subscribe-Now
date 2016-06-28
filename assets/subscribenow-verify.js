@@ -1,6 +1,5 @@
 jQuery(document).ready(function($) {
 
-    // Perform AJAX login on form submit
     $('form#subscribenow').on('submit', function(e){
         $('form#subscribenow p.status').show().text(ajax_subscribenow_object.loadingmessage);
         $('form button').text('SENDING...').prop('disabled',true);
@@ -14,12 +13,15 @@ jQuery(document).ready(function($) {
                 'fullname': $('form#subscribenow [name="fullname"]').val(),
                 'nickname': $('form#subscribenow [name="nickname"]').val(),
                 'contact': $('form#subscribenow [name="contact"]').val(),
-                'security': $('form#subscribenow #security').val() },
+                'g-recaptcha-response': $('form#subscribenow [name="g-recaptcha-response"]').val(),
+                'security': $('form#subscribenow #security').val()
+              },
             success: function(data){
                 $('form#subscribenow p.status').text(data.message);
                 $('form button').text('SUBMIT').prop('disabled',false);
                 if (data.sent == true){
                     $('form button').text('VERIFIED').prop('disabled',true);
+                    window.location.assign(ajax_subscribenow_object.redirecturl + '?notice=verified');
                 }
             }
         });

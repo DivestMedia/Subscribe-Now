@@ -5,12 +5,14 @@ if(!class_exists('SubscribeNow'))
   {
     static $instance;
     public $customers;
-    private $tablename = 'subscribers';
+    private $tablename = 'subscribenow';
     /**
     * Construct the plugin object
     */
     public function __construct()
     {
+      global $table_prefix;
+      $this->tablename = $table_prefix . $this->tablename;
       add_action('admin_init', array(&$this, 'admin_init'));
       add_action('admin_menu', array(&$this, 'add_menu'));
       add_filter( 'set-screen-option', [ __CLASS__, 'set_screen' ], 10, 3 );
@@ -59,6 +61,9 @@ if(!class_exists('SubscribeNow'))
       {
         wp_die(__('You do not have sufficient permissions to access this page.'));
       }
+      if(!$this->checkiftableexists()){
+        echo "Table '".$this->tablename."' Does not exist";
+      };
       // Render the settings template
       include(sprintf("%s/templates/settings.php", SUBSCRIBE_NOW_PLUGIN_DIR));
     } // END public function plugin_settings_page()
@@ -88,17 +93,21 @@ if(!class_exists('SubscribeNow'))
     * @static
     */
 
+    public function checkiftableexists(){
+      global $wpdb;
+      return ($wpdb->get_var("show tables like '$this->tablename'") == $this->tablename);
+    }
+
     public static function activate()
     {
 
       global $wpdb;
-
-      $table = $wpdb->prefix . 'subscribers';
-
+      global $table_prefix;
+      $table  = $table_prefix . 'subscribenow';
       // create the ECPT metabox database table
       if($wpdb->get_var("show tables like '$table'") != $table)
       {
-        $sql = "CREATE TABLE " . $table . " (
+        $sql = "CREATE TABLE IF NOT EXISTS " . $table . " (
         `id` mediumint(9) NOT NULL AUTO_INCREMENT,
         `fullname` TINYTEXT,
         `displayname` VARCHAR(255),
@@ -106,13 +115,12 @@ if(!class_exists('SubscribeNow'))
         `email` VARCHAR(100) NOT NULL,
         `activation_key` VARCHAR(255) NOT NULL,
         `status` TINYINT(1) NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
         UNIQUE KEY id (id)
       );";
 
-      require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-      dbDelta($sql);
+      $wpdb->query($sql);
     }
 
     if ( version_compare( $GLOBALS['wp_version'], SUBSCRIBE_NOW_MIN_WP_VERSION, '<' ) ) {
@@ -128,14 +136,23 @@ if(!class_exists('SubscribeNow'))
   public static function deactivate()
   {
     global $wpdb;
-
-    $table = $wpdb->prefix . 'subscribers';
+    global $table_prefix;
+    $table  = $table_prefix . 'subscribenow';
 
     // create the ECPT metabox database table
     if($wpdb->get_var("show tables like '$table'") == $table)
     {
       $wpdb->query("DROP TABLE IF EXISTS $table");
+      self::subscribe_debug($wpdb->last_error,'1001');
     } // END public static function deactivate
+  }
+
+  public function subscribe_debug($wp = '',$code = ''){
+    if(!empty($wp)){
+      if(SUBSCRIBE_DEBUG){
+        echo $wp . ' Error code :  ' . $code;
+      }
+    }
   }
 }
 }

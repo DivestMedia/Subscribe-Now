@@ -23,7 +23,11 @@ class Members_List extends WP_List_Table {
 		*/
 		public static function get_customers( $per_page = 5, $page_number = 1 ) {
 			global $wpdb;
-			$sql = "SELECT * FROM {$wpdb->prefix}subscribers";
+
+      global $table_prefix;
+      $table  = $table_prefix . 'subscribenow';
+
+			$sql = "SELECT * FROM $table";
 			if ( ! empty( $_REQUEST['orderby'] ) ) {
 				$sql .= ' ORDER BY ' . esc_sql( $_REQUEST['orderby'] );
 				$sql .= ! empty( $_REQUEST['order'] ) ? ' ' . esc_sql( $_REQUEST['order'] ) : ' ASC';
@@ -40,8 +44,11 @@ class Members_List extends WP_List_Table {
 		*/
 		public static function delete_customer( $id ) {
 			global $wpdb;
+      global $table_prefix;
+      $table  = $table_prefix . 'subscribenow';
+
 			$wpdb->delete(
-			"{$wpdb->prefix}subscribers",
+			"$table",
 			[ 'id' => $id ],
 			[ '%d' ]
 		);
@@ -53,7 +60,9 @@ class Members_List extends WP_List_Table {
 	*/
 	public static function record_count() {
 		global $wpdb;
-		$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}subscribers";
+		global $table_prefix;
+		$table  = $table_prefix . 'subscribenow';
+		$sql = "SELECT COUNT(*) FROM $table";
 		return $wpdb->get_var( $sql );
 	}
 	/** Text displayed when no customer data is available */

@@ -58,10 +58,13 @@ class Member{
 
   public function checkEmailExist($email){
     global $wpdb;
+    global $table_prefix;
+    $table  = $table_prefix . 'subscribenow';
+
     $email = filter_var(strtolower(trim($email)), FILTER_VALIDATE_EMAIL);
 
     if(!empty($email)){
-      $subscriber = $wpdb->get_row( $wpdb->prepare("SELECT `email`,`status`,`activation_key`,`updated_at` FROM {$wpdb->prefix}subscribers WHERE `email` LIKE %s LIMIT 1",$email));
+      $subscriber = $wpdb->get_row( $wpdb->prepare("SELECT `email`,`status`,`activation_key`,`updated_at` FROM $table WHERE `email` LIKE %s LIMIT 1",$email));
 
       if(count($subscriber) > 0){
         if($subscriber->status == "0") return false;
@@ -72,17 +75,21 @@ class Member{
   }
   public function addMemberInfo($email,$fullname,$nickname,$contact){
     global $wpdb;
+    global $table_prefix;
+    $table  = $table_prefix . 'subscribenow';
+
     $email = filter_var(strtolower(trim($email)), FILTER_VALIDATE_EMAIL);
     if(!empty($email)){
       // Check if member exist
       $member = $this->checkEmailExist($email);
       if($member==false) return 'notfound';
 
-      $wpdb->query(sprintf("UPDATE {$wpdb->prefix}subscribers SET
+      $wpdb->query(sprintf("UPDATE $table SET
         `fullname` = '%s' ,
         `displayname` = '%s' ,
         `contact` = '%s' ,
-        `status` = 1
+        `status` = 1,
+        `updated_at` = CURRENT_TIMESTAMP
         WHERE
         `email` = '%s' LIMIT 1
         ",$fullname,$nickname,$contact,$email));
@@ -93,6 +100,9 @@ class Member{
 
     public function addMemberToList($email,$force){
       global $wpdb;
+      global $table_prefix;
+      $table  = $table_prefix . 'subscribenow';
+
       $email = filter_var(strtolower(trim($email)), FILTER_VALIDATE_EMAIL);
       if(!empty($email)){
         // Check if member exist
@@ -100,7 +110,7 @@ class Member{
         if($isExist){
           if($isExist->status=='2' && !$force) return 'unverified';
           if($isExist->status=='2' && $force){
-            $wpdb->query(sprintf("UPDATE {$wpdb->prefix}subscribers SET
+            $wpdb->query(sprintf("UPDATE $table SET
               `activation_key` = '%s' ,
               `status` = 2,
               `updated_at` = CURRENT_TIMESTAMP
@@ -111,10 +121,11 @@ class Member{
             }
           }
           else if($isExist!=false) return true;
-          $wpdb->query("INSERT into {$wpdb->prefix}subscribers SET
+          $wpdb->query("INSERT into $table SET
             `email` = '". $email ."' ,
             `activation_key` = '". md5($email) ."' ,
-            `status` = 2
+            `status` = 2,
+            `updated_at` = CURRENT_TIMESTAMP
             ");
             return true;
           }

@@ -27,7 +27,7 @@ if(!class_exists('SubscribeNow'))
     /**
     * Initialize some custom settings
     */
-    
+
     public function init_settings()
     {
       register_setting('subscribenow-settings-group', 'subscribenow_landing_page');
@@ -106,9 +106,10 @@ if(!class_exists('SubscribeNow'))
         `email` VARCHAR(100) NOT NULL,
         `activation_key` VARCHAR(255) NOT NULL,
         `status` TINYINT(1) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         UNIQUE KEY id (id)
       );";
-
 
       require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
       dbDelta($sql);
@@ -126,7 +127,15 @@ if(!class_exists('SubscribeNow'))
 
   public static function deactivate()
   {
-    // Do nothing
-  } // END public static function deactivate
+    global $wpdb;
+
+    $table = $wpdb->prefix . 'subscribers';
+
+    // create the ECPT metabox database table
+    if($wpdb->get_var("show tables like '$table'") == $table)
+    {
+      $wpdb->query("DROP TABLE IF EXISTS $table");
+    } // END public static function deactivate
+  }
 }
 }

@@ -35,6 +35,13 @@
     <?php
   }
   ?>
+  <?php
+if(isset($_GET['resend'])){
+  ?>
+  <input type="hidden" name="resend" value="true"/>
+  <?php
+}
+   ?>
   <p class="status"><?=(!empty($notice) ? $notice : '')?></p><br>
   <button class="btn btn-success" type="submit">Subscribe</button>
   <?php wp_nonce_field( 'ajax-subscription-nonce', 'security' ); ?>

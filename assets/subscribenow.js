@@ -10,6 +10,7 @@ jQuery(document).ready(function($) {
       data: {
         'action': 'ajax_subscribe_save',
         'email': $('form#subscribenow #email').val(),
+        'resend': $('form#subscribenow [name="resend"]').val(),
         'g-recaptcha-response': $('form#subscribenow [name="g-recaptcha-response"]').val(),
         'security': $('form#subscribenow #security').val()
       },
@@ -27,6 +28,9 @@ jQuery(document).ready(function($) {
             $('form button').text('EMAIL SENT').prop('disabled',true);
             window.location.assign(ajax_subscribenow_object.redirecturl + '?notice=thankyou');
           }
+      },
+      error: function(data){
+          $('form#subscribenow p.status').show().text('Something went wrong. Please try again later');
       }
     });
     e.preventDefault();

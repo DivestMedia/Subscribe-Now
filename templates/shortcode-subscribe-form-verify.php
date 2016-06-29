@@ -14,24 +14,27 @@
     <script>
     var RC2KEY = '<?=get_option('subscribenow_recaptcha_client_key')?>',
     doSubmit = false;
+
     function reCaptchaVerify(response) {
       if (response === document.querySelector('.g-recaptcha-response').value) {
         jQuery('#subscribenow button').prop('disabled',false);
       }
     }
+
     function reCaptchaExpired () {
       window.location.reload();
     }
+
     function reCaptchaCallback () {
       jQuery('#subscribenow button').prop('disabled',true);
-      grecaptcha.render('id', {
+      grecaptcha.render('recaptcha', {
         'sitekey': RC2KEY,
         'callback': reCaptchaVerify,
         'expired-callback': reCaptchaExpired
       });
     }
     </script>
-    <div id="recaptcha"></div>
+    <div id="recaptcha"></div><br>
     <?php
   }
   ?>

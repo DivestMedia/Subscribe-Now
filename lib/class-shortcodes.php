@@ -8,10 +8,32 @@ function subscribenow_form($atts){
 
   if(!empty($_GET['confirm']) && !empty($_GET['email'])){
     require_once(SUBSCRIBE_NOW_PLUGIN_DIR . 'lib/class-member.php');
-    $member = new Member();
-    if(md5($_GET['email'])===$_GET['confirm'] && $member->checkEmailExist($_GET['email'])){
-      wp_enqueue_script('subscribenow-verify-ajax');
-      include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form-verify.php';
+    if(md5($_GET['email'])===$_GET['confirm']){
+      $member = new Member();
+      $isExist = $member->checkEmailExist($_GET['email']);
+      if($isExist==false){
+        include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form-email-doesnot-exist.php';
+      }
+      else{
+        wp_enqueue_script('subscribenow-verify-ajax');
+        $status = $isExist->status;
+        if($status==2 && $member->checkMemberConfirmationLink($isExist)==='expired') $status = 'expired';
+
+        switch ($status) {
+          case '1':
+          include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form-email-already-listed.php';
+          break;
+          case '2':
+          include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form-verify.php';
+          break;
+          case 'expired':
+          include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form-link-expired.php';
+          break;
+          default:
+          include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form-email-doesnot-exist.php';
+          break;
+        }
+      }
     }else{
       include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form-email-doesnot-exist.php';
     }
@@ -26,28 +48,28 @@ function subscribenow_form($atts){
       include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form.php';
       break;
       case 'unverified':
-      wp_enqueue_script('subscribenow-ajax');
-      $resendlink = "#";
-      $notice = 'Email already on mailing list but needs to be verified, please check your email. Click <a href="'.$resendlink.'">here</a> to resend a confirmation link';
-      include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form.php';
-      break;
-      case 'failed':
-      wp_enqueue_script('subscribenow-ajax');
-      $notice = 'Something went wrong. Please contact Web Administrator';
-      include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form.php';
-      break;
-      case 'verified':
-        include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form-email-confirm-verified.php';
+        wp_enqueue_script('subscribenow-ajax');
+        $resendlink = "#";
+        $notice = 'Email already on mailing list but needs to be verified, please check your email. Click <a href="'.$resendlink.'">here</a> to resend a confirmation link';
+        include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form.php';
         break;
-        default:
-        include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form-email-doesnot-exist.php';
+        case 'failed':
+        wp_enqueue_script('subscribenow-ajax');
+        $notice = 'Something went wrong. Please contact Web Administrator';
+        include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form.php';
         break;
+        case 'verified':
+          include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form-email-confirm-verified.php';
+          break;
+          default:
+          include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form-email-doesnot-exist.php';
+          break;
+        }
+      }
+      else{
+        wp_enqueue_script('subscribenow-ajax');
+        include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form.php';
       }
     }
-    else{
-      wp_enqueue_script('subscribenow-ajax');
-      include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form.php';
-    }
-  }
 
-  add_shortcode('subscribenow-form', 'subscribenow_form');
+    add_shortcode('subscribenow-form', 'subscribenow_form');

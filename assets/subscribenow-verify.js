@@ -24,6 +24,9 @@ jQuery(document).ready(function($) {
                     $('form button').text('VERIFIED').prop('disabled',true);
                     window.location.assign(ajax_subscribenow_object.redirecturl + '?notice=verified');
                 }
+            },
+            error: function(data){
+                $('form#subscribenow p.status').show().text('Something went wrong. Please try again later');
             }
         });
         e.preventDefault();

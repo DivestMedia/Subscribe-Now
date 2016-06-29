@@ -34,7 +34,8 @@ function ajax_subscribe_save(){
         die();
       }
     }
-    $newmember = addNewMember($email);
+    $forceupdate = isset($_POST['resend']) ? true : false;
+    $newmember = addNewMember($email,$forceupdate);
     if ($newmember === 'exist'){
       echo json_encode(array('sent'=>'exist', 'message'=>__('Email already on mailing list. Please check your email')));
     } else if ( $newmember === 'unverified' ){
@@ -115,10 +116,10 @@ function ajax_subscribe_save(){
       die();
     }
 
-    function addNewMember($email){
+    function addNewMember($email,$force = false){
       require_once(SUBSCRIBE_NOW_PLUGIN_DIR . 'lib/class-member.php');
       $member = new Member();
-      return $member->addMemberToList($email);
+      return $member->addMemberToList($email,$force);
     }
 
     function addNewMemberInfo($email,$fullname,$nickname,$contact){

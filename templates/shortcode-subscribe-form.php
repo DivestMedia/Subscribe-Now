@@ -9,7 +9,7 @@
     ?>
     <script src='https://www.google.com/recaptcha/api.js?hl=en&onload=reCaptchaCallback&render=explicit'></script>
     <script>
-    var RC2KEY = '6Le_uiMTAAAAAJyU4hZ4A_zEEJlkUHVnD9HplhRU',
+    var RC2KEY = '<?=get_option('subscribenow_recaptcha_client_key')?>',
     doSubmit = false;
 
     function reCaptchaVerify(response) {
@@ -19,7 +19,7 @@
     }
 
     function reCaptchaExpired () {
-      /* do something when it expires */
+      window.location.reload();
     }
 
     function reCaptchaCallback () {
@@ -34,9 +34,9 @@
     <div id="recaptcha"></div>
     <?php
   }
-  ?><br>
+  ?>
+  <p class="status"><?=(!empty($notice) ? $notice : '')?></p><br>
   <button class="btn btn-success" type="submit">Subscribe</button>
   <?php wp_nonce_field( 'ajax-subscription-nonce', 'security' ); ?>
-  <p class="status"><?=(!empty($notice) ? $notice : '')?></p>
 
 </form>

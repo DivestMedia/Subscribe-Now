@@ -12,19 +12,16 @@
     ?>
     <script src='https://www.google.com/recaptcha/api.js?hl=en&onload=reCaptchaCallback&render=explicit'></script>
     <script>
-    var RC2KEY = '6Le_uiMTAAAAAJyU4hZ4A_zEEJlkUHVnD9HplhRU',
+    var RC2KEY = '<?=get_option('subscribenow_recaptcha_client_key')?>',
     doSubmit = false;
-
     function reCaptchaVerify(response) {
       if (response === document.querySelector('.g-recaptcha-response').value) {
         jQuery('#subscribenow button').prop('disabled',false);
       }
     }
-
     function reCaptchaExpired () {
-      /* do something when it expires */
+      window.location.reload();
     }
-
     function reCaptchaCallback () {
       jQuery('#subscribenow button').prop('disabled',true);
       grecaptcha.render('id', {

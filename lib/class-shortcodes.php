@@ -21,10 +21,18 @@ function subscribenow_form($atts){
       include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form-email-confirm-sent.php';
       break;
       case 'exist':
+      wp_enqueue_script('subscribenow-ajax');
       $notice = 'Email already on mailing list. Please check your email';
       include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form.php';
       break;
+      case 'unverified':
+      wp_enqueue_script('subscribenow-ajax');
+      $resendlink = "#";
+      $notice = 'Email already on mailing list but needs to be verified, please check your email. Click <a href="'.$resendlink.'">here</a> to resend a confirmation link';
+      include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form.php';
+      break;
       case 'failed':
+      wp_enqueue_script('subscribenow-ajax');
       $notice = 'Something went wrong. Please contact Web Administrator';
       include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form.php';
       break;

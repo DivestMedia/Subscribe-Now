@@ -1,9 +1,5 @@
 jQuery(document).ready(function($) {
 
-<<<<<<< HEAD
-=======
-    // Perform AJAX login on form submit
->>>>>>> origin/Master
     $('form#subscribenow').on('submit', function(e){
         $('form#subscribenow p.status').show().text(ajax_subscribenow_object.loadingmessage);
         $('form button').text('SENDING...').prop('disabled',true);

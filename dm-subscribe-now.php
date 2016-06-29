@@ -17,6 +17,7 @@ define( 'SUBSCRIBE_NOW_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 require_once(SUBSCRIBE_NOW_PLUGIN_DIR . 'lib/class-member-list.php');
 require_once(SUBSCRIBE_NOW_PLUGIN_DIR . 'lib/class-subscribe-now.php');
+require_once(SUBSCRIBE_NOW_PLUGIN_DIR . 'lib/class-ajax-functions.php');
 require_once(SUBSCRIBE_NOW_PLUGIN_DIR . 'lib/class-shortcodes.php');
 
 if(class_exists('SubscribeNow'))

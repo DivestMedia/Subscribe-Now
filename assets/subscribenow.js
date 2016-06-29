@@ -17,22 +17,16 @@ jQuery(document).ready(function($) {
 
         $('form#subscribenow p.status').text(data.message);
         $('form button').text('SUBSCRIBE').prop('disabled',false);
-        if($('form').hasClass('force-redirect')){
           switch (data.sent) {
             case 'exist':
-            window.location.assign(ajax_subscribenow_object.redirecturl + '?notice=exist&email=' + $('form#subscribenow #email').val());
-            break;
             case 'false':
-            window.location.assign(ajax_subscribenow_object.redirecturl + '?notice=failed&email=' + $('form#subscribenow #email').val());
+            case 'unverified':
+            window.location.assign(ajax_subscribenow_object.redirecturl + '?notice=' + data.sent + '&email=' + $('form#subscribenow #email').val());
             break;
             default:
+            $('form button').text('EMAIL SENT').prop('disabled',true);
             window.location.assign(ajax_subscribenow_object.redirecturl + '?notice=thankyou');
           }
-        }
-        if (data.sent == true){
-          $('form button').text('EMAIL SENT').prop('disabled',true);
-          window.location.assign(ajax_subscribenow_object.redirecturl + '?notice=thankyou');
-        }
       }
     });
     e.preventDefault();

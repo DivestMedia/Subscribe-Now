@@ -1,10 +1,22 @@
 <?php
 
 function subscribenow_form($atts){
+  global $post;
   $atts = shortcode_atts( array(
     'captcha' => false,
     'redirect' => false
   ), $atts );
+
+  $pages = get_pages([
+    'child_of' => $post->ID,
+    'sort_order' => 'ASC' ,
+    'sort_column' => 'post_name'
+  ]);
+
+  $childpages = [];
+  foreach ($pages as $key => $page) {
+    $childpages[$page->post_name] = $page->guid;
+  }
 
   if(!empty($_GET['confirm']) && !empty($_GET['email'])){
     require_once(SUBSCRIBE_NOW_PLUGIN_DIR . 'lib/class-member.php');
@@ -40,16 +52,26 @@ function subscribenow_form($atts){
   }else if(!empty($_GET['notice'])){
     switch ($_GET['notice']) {
       case 'thankyou':
+      if(isset($childpages['thank-you'])){
+        ?> <script>window.location.assign('<?=(site_url(get_option('subscribenow_landing_page')) . '/thank-you')?>');</script> <?php
+      }else
       include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form-email-confirm-sent.php';
       break;
       case 'exist':
-      wp_enqueue_script('subscribenow-ajax');
-      $notice = 'Email already on mailing list. Please check your email';
-      include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form.php';
+      if(isset($childpages['already-on-mailing-list'])){
+        ?> <script>window.location.assign('<?=(site_url(get_option('subscribenow_landing_page')) . '/already-on-mailing-list')?>');</script> <?php
+      }else{
+        wp_enqueue_script('subscribenow-ajax');
+        $notice = 'Email already on mailing list. Please check your email';
+        include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form.php';
+      }
       break;
       case 'unverified':
         wp_enqueue_script('subscribenow-ajax');
-        $resendlink = "#";
+        $resendlink = site_url(get_option('subscribenow_landing_page')) . '?' . http_build_query([
+          'resend' => 1,
+          'email' => $_GET['email']
+        ]);
         $notice = 'Email already on mailing list but needs to be verified, please check your email. Click <a href="'.$resendlink.'">here</a> to resend a confirmation link';
         include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form.php';
         break;

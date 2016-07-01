@@ -102,7 +102,7 @@ class Member{
       global $wpdb;
       global $table_prefix;
       $table  = $table_prefix . 'subscribenow';
-
+      
       $email = filter_var(strtolower(trim($email)), FILTER_VALIDATE_EMAIL);
       if(!empty($email)){
         // Check if member exist

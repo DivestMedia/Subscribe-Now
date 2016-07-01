@@ -45,7 +45,7 @@ function ajax_subscribe_save(){
       echo json_encode(array('sent'=>false, 'message'=>__('Something went wrong.')));
     } else {
       // Send Email
-      if(sendConfirmationEmail($email,site_url() . '/' . get_option('subscribenow_landing_page')))
+      if(sendConfirmationEmail($email))
       echo json_encode(array('sent'=>true, 'message'=>__('Email confirmation sent. Please check your email')));
       else
       echo json_encode(array('sent'=>false, 'message'=>__('Something went wrong. Contact Web Administrator')));
@@ -54,8 +54,8 @@ function ajax_subscribe_save(){
     die();
   }
 
-  function sendConfirmationEmail($email,$link){
-
+  function sendConfirmationEmail($email){
+    $link = site_url() . '/' . get_option('subscribenow_landing_page');
     $to = $email;
     $subject = "Please verify your email - Divestmedia Newsletter Subscription";
     $linkparts = parse_url($link);
@@ -68,7 +68,7 @@ function ajax_subscribe_save(){
       "{link}" => $link,
       '{site_name}' => 'Divestmedia.com',
       '{site_email}' => 'help@divestmedia.com',
-      '{btn_confirm_txt}' => 'Confirm my Email Address'
+      '{btn_confirm_txt}' => 'Confirm your Email Address'
     ];
 
     ob_start();

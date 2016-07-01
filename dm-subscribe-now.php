@@ -19,8 +19,7 @@ require_once(SUBSCRIBE_NOW_PLUGIN_DIR . 'lib/class-member-list.php');
 require_once(SUBSCRIBE_NOW_PLUGIN_DIR . 'lib/class-subscribe-now.php');
 require_once(SUBSCRIBE_NOW_PLUGIN_DIR . 'lib/class-ajax-functions.php');
 require_once(SUBSCRIBE_NOW_PLUGIN_DIR . 'lib/class-shortcodes.php');
-include_once(SUBSCRIBE_NOW_PLUGIN_DIR . 'lib/updater/updater.php');
-include_once(SUBSCRIBE_NOW_PLUGIN_DIR . 'lib/updater/config.php');
+include_once(SUBSCRIBE_NOW_PLUGIN_DIR . 'lib/updater/plugin.php');
 
 if(class_exists('SubscribeNow'))
 {

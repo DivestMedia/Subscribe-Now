@@ -1,6 +1,6 @@
 === Subscribe Now ===
 Contributors: webadmin@divestmedia.com
-Tags: 1.0
+Tags: 1.0.1
 Requires at least: 3.0
 Tested up to: 4.5.3
 Stable tag: 1.0

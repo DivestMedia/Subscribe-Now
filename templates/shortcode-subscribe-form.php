@@ -2,7 +2,7 @@
   <?php if($atts['minimal']){ ?>
     <fieldset class="nopadding nomargin">
       <div class="align-left input-group nopadding nomargin transparent">
-        <input type="text" name="src" placeholder="Enter you email address" class="form-control">
+        <input type="email" name="email" placeholder="<?=( !empty($atts['placeholder']) ? $atts['placeholder'] : 'Enter you email address')?>" class="form-control" required>
         <span class="input-group-btn">
           <button class="btn btn-default" type="submit">Subscribe</button>
         </span>

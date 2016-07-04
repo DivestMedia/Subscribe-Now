@@ -18,7 +18,7 @@ function subscribenow_form($atts){
   foreach ($pages as $key => $page) {
     $childpages[$page->post_name] = $page->guid;
   }
-
+  ob_start();
   if(!empty($_GET['confirm']) && !empty($_GET['email'])){
     require_once(SUBSCRIBE_NOW_PLUGIN_DIR . 'lib/class-member.php');
     if(md5($_GET['email'])===$_GET['confirm']){
@@ -91,6 +91,8 @@ function subscribenow_form($atts){
         wp_enqueue_script('subscribenow-ajax');
         include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form.php';
       }
+
+      return ob_get_clean();
     }
 
     add_shortcode('subscribenow-form', 'subscribenow_form');

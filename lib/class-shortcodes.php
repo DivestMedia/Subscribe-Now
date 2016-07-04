@@ -4,7 +4,8 @@ function subscribenow_form($atts){
   global $post;
   $atts = shortcode_atts( array(
     'captcha' => false,
-    'redirect' => false
+    'redirect' => false,
+    'minimal' => false
   ), $atts );
 
   $pages = get_pages([

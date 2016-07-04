@@ -65,10 +65,8 @@ class Member{
 
     if(!empty($email)){
       $subscriber = $wpdb->get_row( $wpdb->prepare("SELECT `email`,`status`,`activation_key`,`updated_at` FROM $table WHERE `email` LIKE %s LIMIT 1",$email));
-
       if(count($subscriber) > 0){
-        if($subscriber->status == "0") return false;
-        return $subscriber;
+        if((int)$subscriber->status > 0) return $subscriber;
       }
     }
     return false;
@@ -102,7 +100,7 @@ class Member{
       global $wpdb;
       global $table_prefix;
       $table  = $table_prefix . 'subscribenow';
-      
+
       $email = filter_var(strtolower(trim($email)), FILTER_VALIDATE_EMAIL);
       if(!empty($email)){
         // Check if member exist

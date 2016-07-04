@@ -10,7 +10,7 @@
 * Text Domain: dm-subscribe-now
 */
 
-define( 'SUBSCRIBE_NOW_VERSION', '3.1.11' );
+define( 'SUBSCRIBE_NOW_VERSION', '1.0' );
 define( 'SUBSCRIBE_NOW_MIN_WP_VERSION', '3.2' );
 define( 'SUBSCRIBE_NOW_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SUBSCRIBE_NOW_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

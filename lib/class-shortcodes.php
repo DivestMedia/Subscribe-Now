@@ -25,12 +25,10 @@ function subscribenow_form($atts){
       $isExist = $member->checkEmailExist($_GET['email']);
       if($isExist==false){
         include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form-email-doesnot-exist.php';
-      }
-      else{
+      }else{
         wp_enqueue_script('subscribenow-verify-ajax');
         $status = $isExist->status;
         if($status==2 && $member->checkMemberConfirmationLink($isExist)==='expired') $status = 'expired';
-
         switch ($status) {
           case '1':
           include SUBSCRIBE_NOW_PLUGIN_DIR . 'templates/shortcode-subscribe-form-email-already-listed.php';

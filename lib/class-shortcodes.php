@@ -5,6 +5,7 @@ function subscribenow_form($atts){
   $atts = shortcode_atts( array(
     'captcha' => false,
     'redirect' => false,
+    'placeholder' => 'Enter you email address',
     'minimal' => false
   ), $atts );
 

@@ -2,7 +2,7 @@
   <?php if($atts['minimal']){ ?>
     <fieldset class="nopadding nomargin">
       <div class="align-left input-group nopadding nomargin transparent">
-        <input type="text" name="src" placeholder="Enter you email address" class="form-control">
+        <input type="email" id="email"  name="email" placeholder="<?=$atts['placeholder']?>" class="form-control" required>
         <span class="input-group-btn">
           <button class="btn btn-default" type="submit">Subscribe</button>
         </span>
@@ -13,7 +13,7 @@
       <p>
         Join the weekly newsletter and never miss out on new tips, tutorials, and more.
       </p>
-      Email Address: <input type="email" id="email" name="email" value="<?=(!empty($_GET['email']) ? $_GET['email'] : '')?>"><br><br>
+      Email Address: <input type="email" id="email" name="email" value="<?=(!empty($_GET['email']) ? $_GET['email'] : '')?>" placeholder="<?=$atts['placeholder']?>"><br><br>
       <?php
       if($atts['captcha']){
         ?>

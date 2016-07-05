@@ -3,7 +3,7 @@
 * Plugin Name: Subscribe Now
 * Plugin URI:
 * Description: A newsletter subscription plugin.
-* Version: 1.0
+* Version: 1.2
 * Author: Ralph John Galindo
 * Author URI:
 * License: GPLv2 or later

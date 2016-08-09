@@ -1,7 +1,7 @@
-~Current Version:1.0~
+~Current Version:1.1~
 ### Subscribe Now
 Contributors: ralphjesy@gmail.com
-Tags: 1.0
+Tags: 1.1
 Requires at least: 3.0
 Tested up to: 4.0.0
 Stable tag: 1.0

@@ -1,6 +1,6 @@
 ~Current Version:1.0~
 ### Subscribe Now
-Contributors: webadmin@divestmedia.com
+Contributors: ralphjesy@gmail.com
 Tags: 1.0
 Requires at least: 3.0
 Tested up to: 4.0.0

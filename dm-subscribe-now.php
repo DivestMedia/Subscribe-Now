@@ -3,7 +3,7 @@
 * Plugin Name: Subscribe Now
 * Plugin URI:
 * Description: A newsletter subscription plugin.
-* Version: 1.2
+* Version: 1.0
 * Author: Ralph John Galindo
 * Author URI:
 * License: GPLv2 or later
@@ -29,3 +29,11 @@ if(class_exists('SubscribeNow'))
   // instantiate the plugin class
   $SubscribeNow = new SubscribeNow();
 }
+
+require SUBSCRIBE_NOW_PLUGIN_DIR . 'plugin-update-checker/plugin-update-checker.php';
+$myUpdateChecker = PucFactory::buildUpdateChecker(
+    'https://raw.githubusercontent.com/DivestMedia/Subscribe-Now/Master/version.json',
+    __FILE__
+);
+
+$myUpdateChecker->setAccessToken('d02638e6d6b03a259fb54eb6f87d60c90bbf2cf8');

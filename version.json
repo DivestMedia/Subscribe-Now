@@ -1,0 +1,9 @@
+{
+    "name" : "Subscribe Now",
+    "version" : "1.0",
+    "author" : "ralphjesy@gmail.com",
+    "download_url" : "https://github.com/DivestMedia/Subscribe-Now/archive/Master.zip",
+    "sections" : {
+        "description" : "A newsletter subscription plugin"
+    }
+}

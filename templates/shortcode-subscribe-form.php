@@ -1,4 +1,4 @@
-<form id="subscribenow" method="POST" action="" class="<?=( $atts['redirect'] ? 'force-redirect' : '')?>">
+<form id="subscribenow" method="POST" action="" class="<?=( $atts['redirect'] ? 'force-redirect' : '')?> nomargin">
   <?php if($atts['minimal']){ ?>
     <fieldset class="nopadding nomargin">
       <div class="align-left input-group nopadding nomargin transparent">
@@ -13,7 +13,8 @@
       <p>
         Join the weekly newsletter and never miss out on new tips, tutorials, and more.
       </p>
-      Email Address: <input type="email" id="email" name="email" value="<?=(!empty($_GET['email']) ? $_GET['email'] : '')?>" placeholder="<?=$atts['placeholder']?>"><br><br>
+      <label for="email">Email Address: </label>
+      <input type="email" id="email" name="email" value="<?=(!empty($_GET['email']) ? $_GET['email'] : '')?>" placeholder="<?=$atts['placeholder']?>" class="form-control" style="max-width:300px;"><br>
       <?php
       if($atts['captcha']){
         ?>
@@ -46,7 +47,7 @@
       }
       ?>
       <p class="status"><?=(!empty($notice) ? $notice : '')?></p><br>
-      <button class="btn btn-success" type="submit">Subscribe</button>
+      <button class="btn btn-default" type="submit">Subscribe</button>
       <?php } ?>
       <?php
       if(isset($_GET['resend'])){

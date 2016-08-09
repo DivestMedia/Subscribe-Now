@@ -1,7 +1,7 @@
-~Current Version:1.1~
+~Current Version:1.0.2~
 ### Subscribe Now
 Contributors: ralphjesy@gmail.com
-Tags: 1.1
+Tags: 1.0.2
 Requires at least: 3.0
 Tested up to: 4.0.0
 Stable tag: 1.0
@@ -32,6 +32,10 @@ A newsletter subscription plugin
 * redirect - Forces redirect to Default Landing Page. Disables Ajax Functionality . Default : false
 
 ## Changelog
+# 1.0.2
+* Adding New Plugin Updater feature via Github
+* Removing Plugin Updater feature via Github
+
 # 1.0.1
 * Adding Plugin Updater feature via Github
 

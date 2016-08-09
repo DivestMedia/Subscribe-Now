@@ -3,14 +3,14 @@
 * Plugin Name: Subscribe Now
 * Plugin URI:
 * Description: A newsletter subscription plugin.
-* Version: 1.1
+* Version: 1.0.2
 * Author: Ralph John Galindo
 * Author URI:
 * License: GPLv2 or later
 * Text Domain: dm-subscribe-now
 */
 
-define( 'SUBSCRIBE_NOW_VERSION', '1.0' );
+define( 'SUBSCRIBE_NOW_VERSION', '1.0.2' );
 define( 'SUBSCRIBE_NOW_MIN_WP_VERSION', '3.2' );
 define( 'SUBSCRIBE_NOW_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SUBSCRIBE_NOW_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -33,7 +33,7 @@ if(class_exists('SubscribeNow'))
 require SUBSCRIBE_NOW_PLUGIN_DIR . 'plugin-update-checker/plugin-update-checker.php';
 $className = PucFactory::getLatestClassVersion('PucGitHubChecker');
 $myUpdateChecker = new $className(
-    'https://raw.githubusercontent.com/DivestMedia/Subscribe-Now/',
+    'https://github.com/DivestMedia/Subscribe-Now/',
     __FILE__,
     'master'
 );

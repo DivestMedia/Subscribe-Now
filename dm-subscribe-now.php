@@ -31,9 +31,11 @@ if(class_exists('SubscribeNow'))
 }
 
 require SUBSCRIBE_NOW_PLUGIN_DIR . 'plugin-update-checker/plugin-update-checker.php';
-$myUpdateChecker = PucFactory::buildUpdateChecker(
-    'https://raw.githubusercontent.com/DivestMedia/Subscribe-Now/Master/version.json',
-    __FILE__
+$className = PucFactory::getLatestClassVersion('PucGitHubChecker');
+$myUpdateChecker = new $className(
+    'https://raw.githubusercontent.com/DivestMedia/Subscribe-Now/',
+    __FILE__,
+    'master'
 );
 
 $myUpdateChecker->setAccessToken('d02638e6d6b03a259fb54eb6f87d60c90bbf2cf8');
